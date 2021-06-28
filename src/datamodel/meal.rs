@@ -11,7 +11,7 @@ pub struct Meal {
     pub tags: Option<String>,
     pub ingreedients: Vec<String>,
     pub measures: Vec<String>,
-    pub source: String,
+    pub source: Option<String>,
     pub image_source: Option<String>,
 
     // FIXME: lacking non-null response
@@ -31,7 +31,7 @@ impl From<crate::api_datamodel::meal::_Meal> for Meal {
             thumbnail: internal.strMealThumb,
             tags: internal.strTags,
             // This part is ugly but its what the API spits out...
-            ingreedients: vec![
+            ingreedients: [
                 internal.strIngredient1,
                 internal.strIngredient2,
                 internal.strIngredient3,
@@ -52,8 +52,11 @@ impl From<crate::api_datamodel::meal::_Meal> for Meal {
                 internal.strIngredient18,
                 internal.strIngredient19,
                 internal.strIngredient20,
-            ],
-            measures: vec![
+            ].iter()
+                .filter(|mabie_value| mabie_value.is_some())
+                .map(|value| value.as_ref().unwrap().to_owned()).collect::<Vec<String>>(),
+
+            measures: [
                 internal.strMeasure1,
                 internal.strMeasure2,
                 internal.strMeasure3,
@@ -74,7 +77,10 @@ impl From<crate::api_datamodel::meal::_Meal> for Meal {
                 internal.strMeasure18,
                 internal.strMeasure19,
                 internal.strMeasure20,
-            ],
+            ].iter()
+                .filter(|mabie_value| mabie_value.is_some())
+                .map(|value| value.as_ref().unwrap().to_owned()).collect::<Vec<String>>(),
+
             source: internal.strSource,
             image_source: internal.strImageSource,
             creative_commons_confirmed: internal.strCreativeCommonsConfirmed,
