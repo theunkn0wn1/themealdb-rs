@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 
 #[allow(non_snake_case)]
-/// API representation of a meal. non-snake case allowed since thats what the API returns...
+
 #[derive(Serialize, Deserialize, Debug)]
 pub(crate) struct _Meal {
     pub(crate) idMeal: String,

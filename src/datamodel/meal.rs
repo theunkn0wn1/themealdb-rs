@@ -1,37 +1,35 @@
 use crate::api_datamodel::meal::_Meal;
 
+#[derive(Debug)]
 pub struct Meal {
-    id: u32,
-    name: String,
-    drink_alternate: Option<String>,
-    category: String,
-    instructions: String,
-    thumbnail: String,
-    tags: Option<Vec<String>>,
-    ingreedients: Vec<String>,
-    measures: Vec<String>,
-    source: String,
-    image_source: Option<String>,
+    pub id: u32,
+    pub name: String,
+    pub drink_alternate: Option<String>,
+    pub category: String,
+    pub instructions: String,
+    pub thumbnail: String,
+    pub tags: Option<String>,
+    pub ingreedients: Vec<String>,
+    pub measures: Vec<String>,
+    pub source: String,
+    pub image_source: Option<String>,
 
     // FIXME: lacking non-null response
-    creative_commons_confirmed: Option<bool>,
+    pub creative_commons_confirmed: Option<bool>,
     // FIXME: lacking non-null response
-    date_modified: Option<String>,
+    pub date_modified: Option<String>,
 }
 
 impl From<crate::api_datamodel::meal::_Meal> for Meal {
     fn from(internal: _Meal) -> Self {
         Self {
-            id: internal.idMeal.into(),
+            id: internal.idMeal.parse().unwrap(),
             name: internal.strMeal,
             drink_alternate: internal.strDrinkAlternate,
             category: internal.strCategory,
             instructions: internal.strInstructions,
             thumbnail: internal.strMealThumb,
-            tags: match internal.strTags {
-                None => { None }
-                Some(tags) => { tags.split('\n').collect() }
-            },
+            tags: internal.strTags,
             // This part is ugly but its what the API spits out...
             ingreedients: vec![
                 internal.strIngredient1,
