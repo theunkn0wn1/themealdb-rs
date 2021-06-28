@@ -10,5 +10,5 @@ pub async fn main() {
 
     let findings = api.search_meal_by_name("chicken").await
         .expect("query failed.").expect("no results.");
-    println!("Found something! {:?}", findings)
+    findings.iter().for_each(|meal| println!("meal name :: {} meal id :: {}", meal.name, meal.id))
 }
