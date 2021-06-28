@@ -52,9 +52,14 @@ impl From<crate::api_datamodel::meal::_Meal> for Meal {
                 internal.strIngredient18,
                 internal.strIngredient19,
                 internal.strIngredient20,
-            ].iter()
-                .filter(|mabie_value| mabie_value.is_some())
-                .map(|value| value.as_ref().unwrap().to_owned()).collect::<Vec<String>>(),
+            ]
+            .iter()
+            // filter null out
+            .filter(|mabie_value| mabie_value.is_some())
+            // filter empties out
+            .filter(|value| value.as_ref().unwrap().ne("".into()))
+            .map(|value| value.as_ref().unwrap().to_owned())
+            .collect::<Vec<String>>(),
 
             measures: [
                 internal.strMeasure1,
@@ -77,9 +82,14 @@ impl From<crate::api_datamodel::meal::_Meal> for Meal {
                 internal.strMeasure18,
                 internal.strMeasure19,
                 internal.strMeasure20,
-            ].iter()
-                .filter(|mabie_value| mabie_value.is_some())
-                .map(|value| value.as_ref().unwrap().to_owned()).collect::<Vec<String>>(),
+            ]
+            .iter()
+            // filter null out
+            .filter(|mabie_value| mabie_value.is_some())
+            // filter empties out
+            .filter(|value| value.as_ref().unwrap().ne("".into()))
+            .map(|value| value.as_ref().unwrap().to_owned())
+            .collect::<Vec<String>>(),
 
             source: internal.strSource,
             image_source: internal.strImageSource,

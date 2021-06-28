@@ -1,8 +1,6 @@
-use serde::{Serialize, Deserialize};
-
+use serde::{Deserialize, Serialize};
 
 #[allow(non_snake_case)]
-
 #[derive(Serialize, Deserialize, Debug)]
 pub(crate) struct _Meal {
     pub(crate) idMeal: String,
@@ -58,5 +56,4 @@ pub(crate) struct _Meal {
     pub(crate) strCreativeCommonsConfirmed: Option<bool>,
     pub(crate) dateModified: Option<String>,
     pub(crate) strDrinkAlternate: Option<String>,
-
 }

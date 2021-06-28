@@ -1,7 +1,7 @@
 mod api_datamodel;
-pub mod traits;
 pub mod datamodel;
 mod mealdb;
+pub mod traits;
 
 pub use crate::mealdb::V1;
 
@@ -11,7 +11,6 @@ pub enum Error {
     RequestFalure(reqwest::Error),
     Unknown(),
 }
-
 
 impl From<reqwest::Error> for Error {
     fn from(e: reqwest::Error) -> Self {
@@ -26,7 +25,6 @@ impl From<serde_json::Error> for Error {
 }
 
 pub type Result<T> = core::result::Result<T, Error>;
-
 
 #[cfg(test)]
 mod tests {
