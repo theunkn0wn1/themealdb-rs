@@ -30,9 +30,8 @@
 
 use async_trait::async_trait;
 use reqwest::get;
-use serde_json::from_str;
 
-use crate::datamodel::{Category, Meal, Ingredient};
+use crate::datamodel::{Category, Ingredient, Meal};
 use crate::traits::MealDbBaseV1;
 use crate::Result;
 
@@ -52,30 +51,13 @@ impl V1 {
 impl MealDbBaseV1 for V1 {
     async fn search_meal_by_name(&self, name: &str) -> crate::Result<Option<Vec<Meal>>> {
         let url = format!("{}/search.php?s={}", self.base_uri, name);
-        let response = get(url).await?.text().await?;
-
-        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
-            serde_json::from_str(&response)?;
-
-        if let Some(v) = data.meals {
-            Ok(Some(
-                v.into_iter()
-                    .map(|internal| internal.into())
-                    .collect::<Vec<Meal>>(),
-            ))
-        } else {
-            Ok(None)
-        }
+        V1::_get_meals_response(url).await
     }
 
     async fn get_meal(&self, id: &str) -> Result<Option<Meal>> {
         let url = format!("{}/lookup.php?i={}", self.base_uri, id);
-        let response = get(url).await?.text().await?;
-        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
-            serde_json::from_str(&response)?;
-
-        if let Some(v) = data.meals {
-            Ok(v.into_iter().map(|internal| internal.into()).next())
+        if let Some(mut meals) = V1::_get_meals_response(url).await? {
+            Ok(meals.pop())
         } else {
             Ok(None)
         }
@@ -142,8 +124,35 @@ impl MealDbBaseV1 for V1 {
         let data: crate::api_datamodel::ingredient_list_response::_IngredientListResponse =
             serde_json::from_str(&response)?;
 
-        Ok(
-            data.meals.into_iter().map(|response| response.into()).collect::<Vec<Ingredient>>()
-        )
+        Ok(data
+            .meals
+            .into_iter()
+            .map(|response| response.into())
+            .collect::<Vec<Ingredient>>())
+    }
+
+    async fn filter_by_main_ingreedient(&self, ingredient: &str) -> Result<Option<Vec<Meal>>> {
+        let url = format!("{}/filter.php?i={}", self.base_uri, ingredient);
+        V1::_get_meals_response(url).await
+    }
+}
+
+impl V1 {
+    /// Gets a listof Meals from the API.
+    /// This has been extracted since its used in multiple functions.
+    async fn _get_meals_response(url: String) -> Result<Option<Vec<Meal>>> {
+        let response = get(url).await?.text().await?;
+        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
+            serde_json::from_str(&response)?;
+
+        if let Some(v) = data.meals {
+            Ok(Some(
+                v.into_iter()
+                    .map(|internal| internal.into())
+                    .collect::<Vec<Meal>>(),
+            ))
+        } else {
+            Ok(None)
+        }
     }
 }

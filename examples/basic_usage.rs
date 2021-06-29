@@ -47,6 +47,9 @@ pub async fn main() {
     println!("Getting all ingredients...");
     let ingredients = api.list_ingreedients().await.expect("query failed!");
     for x in ingredients {
-        println!("name :: {:?}\tid:: {}\ttype ::{:?}", x.name, x.id, x.ingredient_type);
+        println!(
+            "name :: {:?}\tid:: {}\ttype ::{:?}",
+            x.name, x.id, x.ingredient_type
+        );
     }
 }

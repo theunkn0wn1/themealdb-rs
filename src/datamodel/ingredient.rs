@@ -29,9 +29,9 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #[derive(Debug)]
-pub struct Ingredient{
+pub struct Ingredient {
     pub id: String,
     pub name: String,
     pub descripton: Option<String>,
-    pub ingredient_type: Option<String> // can't use `type` since thats a keyword.
+    pub ingredient_type: Option<String>, // can't use `type` since thats a keyword.
 }

@@ -29,10 +29,9 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 mod category;
-mod meal;
 mod ingredient;
-
+mod meal;
 
 pub use category::Category;
-pub use meal::Meal;
 pub use ingredient::Ingredient;
+pub use meal::Meal;
