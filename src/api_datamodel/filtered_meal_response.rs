@@ -28,12 +28,17 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-pub(crate) mod area;
-pub(crate) mod area_list_reponse;
-pub(crate) mod categories;
-pub(crate) mod categories_response;
-pub(crate) mod filtered_meal_response;
-pub(crate) mod ingredient;
-pub(crate) mod ingredient_list_response;
-pub(crate) mod meal;
-pub(crate) mod meal_list_response;
+use serde::{Deserialize, Serialize};
+
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
+pub(crate) struct _FilteredMeal {
+    pub(crate) strMeal: String,
+    pub(crate) strMealThumb: String,
+    pub(crate) idMeal: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub(crate) struct _FilteredMealResponse {
+    pub(crate) meals: Option<Vec<_FilteredMeal>>,
+}
