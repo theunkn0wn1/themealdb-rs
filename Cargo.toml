@@ -3,7 +3,6 @@ name = "mealdb"
 version = "0.1.0"
 edition = "2018"
 license = "BSD-3-Clause"
-license-file = "LICENSE"
 authors = ["Joshua Salzedo"]
 homepage = "https://github.com/theunkn0wn1/themealdb-rs"
 description = "Async API wraper for themealdb.com"
