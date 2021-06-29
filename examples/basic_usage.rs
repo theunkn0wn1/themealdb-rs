@@ -1,4 +1,4 @@
-use mealdb::preamble::*;
+use mealdb::prelude::*;
 
 #[tokio::main]
 pub async fn main() {

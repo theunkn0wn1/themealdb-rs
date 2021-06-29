@@ -28,10 +28,30 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//! An async-friendly interface to [`themealdb.com`](https://themealdb.com)'s API
+//!
+//! To make use of this crate, you will need an API key.
+//!
+//! # Getting started.
+//! To get started, create a new instance of the [`V1`](./struct.V1.html) API wrapper object.
+//!
+//! From there, all of the publicly available API functions are exposed.
+//!
+//! ```no_run
+//! use mealdb::prelude::*;
+//! use mealdb::Result;
+//!
+//! async fn doc_demo_main() -> Result<()>{
+//!     let api = mealdb::V1::new("https://themealdb.com", "<your API token here>");
+//!
+//!     let meal = api.get_random_meal().await?;
+//! # Ok(())
+//! }
+//! ```
 mod api_datamodel;
 pub mod datamodel;
 mod mealdb;
-pub mod preamble;
+pub mod prelude;
 pub mod traits;
 
 pub use crate::mealdb::V1;
