@@ -6,12 +6,12 @@ use crate::datamodel::Category;
 /// ther are two variants to the categories depending on which endpoint is queried.
 /// this one relates to the response of /list.php?c=list
 pub(crate) struct _ListCategoriesVariant1 {
-    pub(crate) strArea: String,
+    pub(crate) strCategory: String,
 }
 
 impl Into<String> for _ListCategoriesVariant1 {
     fn into(self) -> String {
-        self.strArea
+        self.strCategory
     }
 }
 
