@@ -30,6 +30,9 @@
 
 mod category;
 mod meal;
+mod ingredient;
+
 
 pub use category::Category;
 pub use meal::Meal;
+pub use ingredient::Ingredient;

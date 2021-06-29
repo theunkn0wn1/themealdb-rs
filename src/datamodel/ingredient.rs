@@ -28,25 +28,10 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-use serde::{Deserialize, Serialize};
-use crate::datamodel::Ingredient;
-
-#[allow(non_snake_case)]
-#[derive(Serialize, Deserialize, Debug)]
-pub(crate) struct _Ingredient {
-    pub(crate) idIngredient: String,
-    pub(crate) strIngredient: String,
-    pub(crate) strDescription: String,
-    pub(crate) strType: Option<String>,
-}
-
-impl Into<Ingredient> for _Ingredient {
-    fn into(self) -> Ingredient {
-        Ingredient{
-            id: self.idIngredient,
-            name: self.strIngredient,
-            descripton: self.strDescription,
-            ingredient_type: self.strType
-        }
-    }
+#[derive(Debug)]
+pub struct Ingredient{
+    pub id: String,
+    pub name: String,
+    pub descripton: String,
+    pub ingredient_type: Option<String> // can't use `type` since thats a keyword.
 }
