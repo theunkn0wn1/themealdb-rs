@@ -36,7 +36,7 @@ use crate::datamodel::Ingredient;
 pub(crate) struct _Ingredient {
     pub(crate) idIngredient: String,
     pub(crate) strIngredient: String,
-    pub(crate) strDescription: String,
+    pub(crate) strDescription: Option<String>,
     pub(crate) strType: Option<String>,
 }
 

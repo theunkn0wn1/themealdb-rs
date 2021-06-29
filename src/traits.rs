@@ -28,7 +28,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-use crate::datamodel::{Category, Meal};
+use crate::datamodel::{Category, Meal, Ingredient};
 
 use async_trait::async_trait;
 
@@ -48,7 +48,7 @@ pub trait MealDbBaseV1 {
     async fn list_categories(&self) -> crate::Result<Vec<String>>;
     async fn get_categories(&self) -> crate::Result<Vec<Category>>;
     async fn list_areas(&self) -> crate::Result<Vec<String>>;
-    // async fn list_ingreedients(&self);
+    async fn list_ingreedients(&self) -> crate::Result<Vec<Ingredient>>;
 }
 
 #[async_trait]

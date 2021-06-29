@@ -32,7 +32,7 @@ use async_trait::async_trait;
 use reqwest::get;
 use serde_json::from_str;
 
-use crate::datamodel::{Category, Meal};
+use crate::datamodel::{Category, Meal, Ingredient};
 use crate::traits::MealDbBaseV1;
 use crate::Result;
 
@@ -134,5 +134,16 @@ impl MealDbBaseV1 for V1 {
             .into_iter()
             .map(|response| response.into())
             .collect::<Vec<String>>())
+    }
+
+    async fn list_ingreedients(&self) -> Result<Vec<Ingredient>> {
+        let url = format!("{}/list.php?i=list", self.base_uri);
+        let response = get(url).await?.text().await?;
+        let data: crate::api_datamodel::ingredient_list_response::_IngredientListResponse =
+            serde_json::from_str(&response)?;
+
+        Ok(
+            data.meals.into_iter().map(|response| response.into()).collect::<Vec<Ingredient>>()
+        )
     }
 }

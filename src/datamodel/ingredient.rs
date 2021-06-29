@@ -32,6 +32,6 @@
 pub struct Ingredient{
     pub id: String,
     pub name: String,
-    pub descripton: String,
+    pub descripton: Option<String>,
     pub ingredient_type: Option<String> // can't use `type` since thats a keyword.
 }

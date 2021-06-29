@@ -42,5 +42,11 @@ pub async fn main() {
     let categories = api.get_categories().await.expect("query failed!");
     categories.iter().for_each(|cat| {
         println!("category name :: {:?} category id :: {}", cat.name, cat.id);
-    })
+    });
+
+    println!("Getting all ingredients...");
+    let ingredients = api.list_ingreedients().await.expect("query failed!");
+    for x in ingredients {
+        println!("name :: {:?}\tid:: {}\ttype ::{:?}", x.name, x.id, x.ingredient_type);
+    }
 }
