@@ -1,7 +1,7 @@
 
 #[derive(Debug)]
 pub struct Meal {
-    pub id: u32,
+    pub id: String,
     pub name: String,
     pub drink_alternate: Option<String>,
     pub category: String,

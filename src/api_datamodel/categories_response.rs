@@ -13,5 +13,5 @@ pub(crate) struct _ListCategoriesVariant1Response {
 /// there are two variants to the categories depending on which endpoint is queried.
 /// this one relates to the response of /categories.php
 pub(crate) struct _ListCategoriesVariant2Response {
-    pub(crate) meals: Vec<_ListCategoriesVariant2>,
+    pub(crate) categories: Vec<_ListCategoriesVariant2>,
 }

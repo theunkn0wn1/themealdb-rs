@@ -63,7 +63,7 @@ pub(crate) struct _Meal {
 impl Into<Meal> for _Meal{
     fn into(self) -> Meal {
         Meal {
-            id: self.idMeal.parse().unwrap(),
+            id: self.idMeal,
             name: self.strMeal,
             drink_alternate: self.strDrinkAlternate,
             category: self.strCategory,

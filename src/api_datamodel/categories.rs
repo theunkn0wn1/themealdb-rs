@@ -20,9 +20,9 @@ impl Into<String> for _ListCategoriesVariant1 {
 /// there are two variants to the categories depending on which endpoint is queried.
 /// this one relates to the response of /categories.php
 pub(crate) struct _ListCategoriesVariant2 {
-    pub(crate) idCategory: u32,
+    pub(crate) idCategory: String,
     pub(crate) strCategory: String,
-    pub(crate) srCategoryThumb: String,
+    pub(crate) strCategoryThumb: String,
     pub(crate) strCategoryDescription: String,
 }
 
@@ -31,7 +31,7 @@ impl Into<Category> for _ListCategoriesVariant2 {
         Category {
             id: self.idCategory,
             name: self.strCategory,
-            thumbnail: self.srCategoryThumb,
+            thumbnail: self.strCategoryThumb,
             description: self.strCategoryDescription,
         }
     }

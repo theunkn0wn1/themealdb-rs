@@ -81,7 +81,7 @@ impl MealDbBaseV1 for V1 {
         let response = get(format!("{}/categories.php", self.base_uri)).await?.text().await?;
         let data: crate::api_datamodel::categories_response::_ListCategoriesVariant2Response = serde_json::from_str(&response)?;
 
-        Ok(data.meals.into_iter().map(|response| response.into()).collect::<Vec<Category>>())
+        Ok(data.categories.into_iter().map(|response| response.into()).collect::<Vec<Category>>())
     }
 
     async fn list_areas(&self) -> Result<Vec<String>> {
