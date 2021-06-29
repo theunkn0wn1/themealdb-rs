@@ -2,6 +2,7 @@ mod api_datamodel;
 pub mod datamodel;
 mod mealdb;
 pub mod traits;
+pub mod preamble;
 
 pub use crate::mealdb::V1;
 

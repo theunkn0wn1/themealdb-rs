@@ -1,4 +1,4 @@
-use mealdb::traits::MealDbBaseV1;
+use mealdb::preamble::*;
 use mealdb::V1;
 
 #[tokio::main]
