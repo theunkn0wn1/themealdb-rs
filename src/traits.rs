@@ -1,4 +1,4 @@
-use crate::datamodel::{Meal, Category};
+use crate::datamodel::{Category, Meal};
 
 use async_trait::async_trait;
 
@@ -10,7 +10,7 @@ pub trait MealDbBaseV1 {
     async fn search_meal_by_name(&self, name: &str) -> crate::Result<Option<Vec<Meal>>>;
     /// Finds all meals that start with the specified letter.
     /// Same as `search_meal_by_name` with a single-character string.
-    async fn search_meal_by_first_letter(&self, letter: &char) -> crate::Result<Option<Vec<Meal>>>{
+    async fn search_meal_by_first_letter(&self, letter: &char) -> crate::Result<Option<Vec<Meal>>> {
         self.search_meal_by_name(&letter.to_string()).await
     }
     async fn get_meal(&self, id: &str) -> crate::Result<Option<Meal>>;

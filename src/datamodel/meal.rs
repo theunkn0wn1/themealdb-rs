@@ -1,4 +1,3 @@
-
 #[derive(Debug)]
 pub struct Meal {
     pub id: String,

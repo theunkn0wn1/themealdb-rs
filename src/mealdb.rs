@@ -3,8 +3,8 @@ use reqwest::get;
 use serde_json::from_str;
 
 use crate::datamodel::{Category, Meal};
-use crate::Result;
 use crate::traits::MealDbBaseV1;
+use crate::Result;
 
 pub struct V1 {
     base_uri: String,
@@ -45,10 +45,7 @@ impl MealDbBaseV1 for V1 {
             serde_json::from_str(&response)?;
 
         if let Some(v) = data.meals {
-            Ok(
-                v.into_iter()
-                    .map(|internal| internal.into()).next()
-            )
+            Ok(v.into_iter().map(|internal| internal.into()).next())
         } else {
             Ok(None)
         }
@@ -74,14 +71,26 @@ impl MealDbBaseV1 for V1 {
         let data: crate::api_datamodel::categories_response::_ListCategoriesVariant1Response =
             serde_json::from_str(&response)?;
 
-        Ok(data.meals.into_iter().map(|response| response.into()).collect::<Vec<String>>())
+        Ok(data
+            .meals
+            .into_iter()
+            .map(|response| response.into())
+            .collect::<Vec<String>>())
     }
 
     async fn get_categories(&self) -> Result<Vec<Category>> {
-        let response = get(format!("{}/categories.php", self.base_uri)).await?.text().await?;
-        let data: crate::api_datamodel::categories_response::_ListCategoriesVariant2Response = serde_json::from_str(&response)?;
+        let response = get(format!("{}/categories.php", self.base_uri))
+            .await?
+            .text()
+            .await?;
+        let data: crate::api_datamodel::categories_response::_ListCategoriesVariant2Response =
+            serde_json::from_str(&response)?;
 
-        Ok(data.categories.into_iter().map(|response| response.into()).collect::<Vec<Category>>())
+        Ok(data
+            .categories
+            .into_iter()
+            .map(|response| response.into())
+            .collect::<Vec<Category>>())
     }
 
     async fn list_areas(&self) -> Result<Vec<String>> {
@@ -90,6 +99,10 @@ impl MealDbBaseV1 for V1 {
         let data: crate::api_datamodel::area_list_reponse::_AreaListResponse =
             serde_json::from_str(&response)?;
 
-        Ok(data.meals.into_iter().map(|response| response.into()).collect::<Vec<String>>())
+        Ok(data
+            .meals
+            .into_iter()
+            .map(|response| response.into())
+            .collect::<Vec<String>>())
     }
 }

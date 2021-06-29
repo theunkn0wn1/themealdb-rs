@@ -1,6 +1,5 @@
 use crate::api_datamodel::categories::_ListCategoriesVariant2;
 
-
 #[derive(Debug)]
 pub struct Category {
     pub id: String,

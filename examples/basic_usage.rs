@@ -1,12 +1,11 @@
 use mealdb::preamble::*;
-use mealdb::V1;
 
 #[tokio::main]
 pub async fn main() {
     println!("hello, world!");
 
     // Create handle to the API
-    let api = V1::new("https://www.themealdb.com", "1");
+    let api = mealdb::V1::new("https://www.themealdb.com", "1");
 
     // Searching for meals that contain a keyword
     println!("finding all meals with `chicken` in the name...");
@@ -19,15 +18,17 @@ pub async fn main() {
         .iter()
         .for_each(|meal| println!("meal name :: {:?} meal id :: {}", meal.name, meal.id));
 
-
     println!("finding meal with specific id...");
-    let meal = api.get_meal("52875").await.expect("query failed.").expect("API returned null");
+    let meal = api
+        .get_meal("52875")
+        .await
+        .expect("query failed.")
+        .expect("API returned null");
     println!("meal name :: {:?} meal id :: {}", meal.name, meal.id);
 
     println!("finding a random meal...");
     let meal = api.get_random_meal().await.expect("query failed");
     println!("meal name :: {:?} meal id :: {}", meal.name, meal.id);
-
 
     println!("list all categories (names)....");
     let category_names = api.list_categories().await.expect("query failed.");
@@ -41,7 +42,5 @@ pub async fn main() {
     let categories = api.get_categories().await.expect("query failed!");
     categories.iter().for_each(|cat| {
         println!("category name :: {:?} category id :: {}", cat.name, cat.id);
-
     })
-
 }

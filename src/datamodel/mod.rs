@@ -1,5 +1,5 @@
-mod meal;
 mod category;
+mod meal;
 
-pub use meal::Meal;
 pub use category::Category;
+pub use meal::Meal;

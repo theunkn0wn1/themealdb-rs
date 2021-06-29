@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::datamodel::Meal;
+use serde::{Deserialize, Serialize};
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
@@ -59,8 +59,7 @@ pub(crate) struct _Meal {
     pub(crate) strDrinkAlternate: Option<String>,
 }
 
-
-impl Into<Meal> for _Meal{
+impl Into<Meal> for _Meal {
     fn into(self) -> Meal {
         Meal {
             id: self.idMeal,
@@ -93,13 +92,13 @@ impl Into<Meal> for _Meal{
                 self.strIngredient19,
                 self.strIngredient20,
             ]
-                .iter()
-                // filter null out
-                .filter(|mabie_value| mabie_value.is_some())
-                // filter empties out
-                .filter(|value| value.as_ref().unwrap().ne("".into()))
-                .map(|value| value.as_ref().unwrap().to_owned())
-                .collect::<Vec<String>>(),
+            .iter()
+            // filter null out
+            .filter(|mabie_value| mabie_value.is_some())
+            // filter empties out
+            .filter(|value| value.as_ref().unwrap().ne("".into()))
+            .map(|value| value.as_ref().unwrap().to_owned())
+            .collect::<Vec<String>>(),
 
             measures: [
                 self.strMeasure1,
@@ -123,19 +122,18 @@ impl Into<Meal> for _Meal{
                 self.strMeasure19,
                 self.strMeasure20,
             ]
-                .iter()
-                // filter null out
-                .filter(|mabie_value| mabie_value.is_some())
-                // filter empties out
-                .filter(|value| value.as_ref().unwrap().ne("".into()))
-                .map(|value| value.as_ref().unwrap().to_owned())
-                .collect::<Vec<String>>(),
+            .iter()
+            // filter null out
+            .filter(|mabie_value| mabie_value.is_some())
+            // filter empties out
+            .filter(|value| value.as_ref().unwrap().ne("".into()))
+            .map(|value| value.as_ref().unwrap().to_owned())
+            .collect::<Vec<String>>(),
 
             source: self.strSource,
             image_source: self.strImageSource,
             creative_commons_confirmed: self.strCreativeCommonsConfirmed,
             date_modified: self.dateModified,
         }
-
     }
 }
