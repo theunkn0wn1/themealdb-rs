@@ -68,7 +68,7 @@ impl MealDbBaseV1 for V1 {
         Err(crate::Error::InvalidAPIResponse)
     }
 
-    async fn get_categories(&self) -> Result<Vec<String>> {
+    async fn list_categories(&self) -> Result<Vec<String>> {
         let url = format!("{}/list.php?c=list", self.base_uri);
         let response = get(url).await?.text().await?;
         let data: crate::api_datamodel::categories_response::_ListCategoriesVariant1Response =
@@ -77,7 +77,7 @@ impl MealDbBaseV1 for V1 {
         Ok(data.meals.into_iter().map(|response| response.into()).collect::<Vec<String>>())
     }
 
-    async fn list_categories(&self) -> Result<Vec<Category>> {
+    async fn get_categories(&self) -> Result<Vec<Category>> {
         let response = get(format!("{}/categories.php", self.base_uri)).await?.text().await?;
         let data: crate::api_datamodel::categories_response::_ListCategoriesVariant2Response = serde_json::from_str(&response)?;
 
@@ -85,6 +85,11 @@ impl MealDbBaseV1 for V1 {
     }
 
     async fn list_areas(&self) -> Result<Vec<String>> {
-        todo!()
+        let url = format!("{}/list.php?a=list", self.base_uri);
+        let response = get(url).await?.text().await?;
+        let data: crate::api_datamodel::area_list_reponse::_AreaListResponse =
+            serde_json::from_str(&response)?;
+
+        Ok(data.meals.into_iter().map(|response| response.into()).collect::<Vec<String>>())
     }
 }

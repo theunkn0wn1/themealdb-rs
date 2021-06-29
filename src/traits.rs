@@ -15,8 +15,8 @@ pub trait MealDbBaseV1 {
     }
     async fn get_meal(&self, id: &str) -> crate::Result<Option<Meal>>;
     async fn get_random_meal(&self) -> crate::Result<Meal>;
-    async fn get_categories(&self) -> crate::Result<Vec<String>>;
-    async fn list_categories(&self)-> crate::Result<Vec<Category>>;
+    async fn list_categories(&self) -> crate::Result<Vec<String>>;
+    async fn get_categories(&self) -> crate::Result<Vec<Category>>;
     async fn list_areas(&self) -> crate::Result<Vec<String>>;
     // async fn list_ingreedients(&self);
 }

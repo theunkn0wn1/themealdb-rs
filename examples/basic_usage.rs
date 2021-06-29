@@ -21,6 +21,11 @@ pub async fn main() {
     println!("meal name :: {:?}", meal.name);
 
     println!("finding all categories (names)....");
-    let category_names = api.get_categories().await.expect("query failed.");
-    println!("{:?}", category_names)
+    let category_names = api.list_categories().await.expect("query failed.");
+    println!("{:?}", category_names);
+
+    println!("finding all areas (names)...");
+
+    let area_names = api.list_areas().await.expect("query failed.");
+    println!("{:?}", area_names);
 }

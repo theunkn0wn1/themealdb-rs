@@ -5,3 +5,9 @@ use serde::{Deserialize, Serialize};
 pub(crate) struct _Area {
     pub(crate) strArea: String,
 }
+
+impl Into<String> for _Area {
+    fn into(self) -> String {
+        self.strArea
+    }
+}
