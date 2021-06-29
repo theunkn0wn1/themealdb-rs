@@ -7,9 +7,17 @@ pub trait MealDbBaseV1 {
     /// Searches for a meal by its specified name
     /// Returns a optional list of resulting meals
     async fn search_meal_by_name(&self, name: &str) -> crate::Result<Option<Vec<Meal>>>;
-    async fn search_meal_by_first_letter(&self, letter: &char);
-    async fn get_meal(&self, id: &str);
-    async fn get_random_meal(&self);
+    /// Finds all meals that start with the specified letter.
+    /// Same as `search_meal_by_name` with a single-character string.
+    async fn search_meal_by_first_letter(&self, letter: &char) -> crate::Result<Option<Vec<Meal>>>{
+        self.search_meal_by_name(&letter.to_string()).await
+    }
+    async fn get_meal(&self, id: &str) -> crate::Result<Option<Meal>>;
+    async fn get_random_meal(&self) -> crate::Result<Meal>;
+    async fn get_categories(&self);
+    async fn list_categories(&self);
+    async fn list_areas(&self);
+    async fn list_ingreedients(&self);
 }
 
 #[async_trait]

@@ -25,7 +25,7 @@ impl MealDbBaseV1 for V1 {
         let url = format!("{}/search.php?s={}", self.base_uri, name);
         let response = get(url).await?.text().await?;
 
-        let data: crate::api_datamodel::meal_list_response::MealsResponse =
+        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
             serde_json::from_str(&response)?;
 
         if let Some(v) = data.meals {
@@ -37,10 +37,6 @@ impl MealDbBaseV1 for V1 {
         } else {
             Ok(None)
         }
-    }
-
-    async fn search_meal_by_first_letter(&self, letter: &char) {
-        todo!()
     }
 
     async fn get_meal(&self, id: &str) {
