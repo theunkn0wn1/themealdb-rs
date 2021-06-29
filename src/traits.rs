@@ -34,10 +34,21 @@ use crate::Result;
 use async_trait::async_trait;
 
 #[async_trait]
-/// MealDB features available to all
+/// MealDB features available to all users
 pub trait MealDbBaseV1 {
     /// Searches for a meal by its specified name
     /// Returns a optional list of resulting meals
+    ///
+    /// ```no_run
+    /// # use mealdb::prelude::*;
+    /// # async fn doc_search_meal_by_name() -> mealdb::Result<()>{
+    /// #   let api = mealdb::V1::new("...", "...");
+    ///     if let Some(matches) = api.search_meal_by_name("chicken").await?{
+    ///         println!("Found some matches!");
+    ///     }
+    /// #   Ok(())
+    /// # }
+    /// ```
     async fn search_meal_by_name(&self, name: &str) -> Result<Option<Vec<Meal>>>;
     /// Finds all meals that start with the specified letter.
     /// Same as `search_meal_by_name` with a single-character string.

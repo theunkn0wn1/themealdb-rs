@@ -28,6 +28,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//! This crate's public representation of API data members.
+//! Many fields have been renamed to match Rust's naming conventions.
+//! Many fields are also nullable, as they are nullable in the API.
 mod category;
 mod ingredient;
 mod meal;

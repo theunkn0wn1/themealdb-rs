@@ -35,8 +35,18 @@
 //! # Getting started.
 //! To get started, create a new instance of the [`V1`](./struct.V1.html) API wrapper object.
 //!
-//! ```
+//! From there, all of the publicly available API functions are exposed.
+//!
+//! ```no_run
 //! use mealdb::prelude::*;
+//! use mealdb::Result;
+//!
+//! async fn doc_demo_main() -> Result<()>{
+//!     let api = mealdb::V1::new("https://themealdb.com", "<your API token here>");
+//!
+//!     let meal = api.get_random_meal().await?;
+//! # Ok(())
+//! }
 //! ```
 mod api_datamodel;
 pub mod datamodel;
