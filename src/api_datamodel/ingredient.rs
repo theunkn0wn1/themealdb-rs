@@ -28,8 +28,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-use serde::{Deserialize, Serialize};
 use crate::datamodel::Ingredient;
+use serde::{Deserialize, Serialize};
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
@@ -42,11 +42,11 @@ pub(crate) struct _Ingredient {
 
 impl Into<Ingredient> for _Ingredient {
     fn into(self) -> Ingredient {
-        Ingredient{
+        Ingredient {
             id: self.idIngredient,
             name: self.strIngredient,
             descripton: self.strDescription,
-            ingredient_type: self.strType
+            ingredient_type: self.strType,
         }
     }
 }

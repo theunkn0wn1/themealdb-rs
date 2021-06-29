@@ -30,9 +30,8 @@
 
 use async_trait::async_trait;
 use reqwest::get;
-use serde_json::from_str;
 
-use crate::datamodel::{Category, Meal, Ingredient};
+use crate::datamodel::{Category, Ingredient, Meal};
 use crate::traits::MealDbBaseV1;
 use crate::Result;
 
@@ -52,30 +51,13 @@ impl V1 {
 impl MealDbBaseV1 for V1 {
     async fn search_meal_by_name(&self, name: &str) -> crate::Result<Option<Vec<Meal>>> {
         let url = format!("{}/search.php?s={}", self.base_uri, name);
-        let response = get(url).await?.text().await?;
-
-        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
-            serde_json::from_str(&response)?;
-
-        if let Some(v) = data.meals {
-            Ok(Some(
-                v.into_iter()
-                    .map(|internal| internal.into())
-                    .collect::<Vec<Meal>>(),
-            ))
-        } else {
-            Ok(None)
-        }
+        self._get_meals_response(url).await
     }
 
     async fn get_meal(&self, id: &str) -> Result<Option<Meal>> {
         let url = format!("{}/lookup.php?i={}", self.base_uri, id);
-        let response = get(url).await?.text().await?;
-        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
-            serde_json::from_str(&response)?;
-
-        if let Some(v) = data.meals {
-            Ok(v.into_iter().map(|internal| internal.into()).next())
+        if let Some(mut meals) = self._get_meals_response(url).await? {
+            Ok(meals.pop())
         } else {
             Ok(None)
         }
@@ -136,14 +118,77 @@ impl MealDbBaseV1 for V1 {
             .collect::<Vec<String>>())
     }
 
-    async fn list_ingreedients(&self) -> Result<Vec<Ingredient>> {
+    async fn list_ingredients(&self) -> Result<Vec<Ingredient>> {
         let url = format!("{}/list.php?i=list", self.base_uri);
         let response = get(url).await?.text().await?;
         let data: crate::api_datamodel::ingredient_list_response::_IngredientListResponse =
             serde_json::from_str(&response)?;
 
-        Ok(
-            data.meals.into_iter().map(|response| response.into()).collect::<Vec<Ingredient>>()
-        )
+        Ok(data
+            .meals
+            .into_iter()
+            .map(|response| response.into())
+            .collect::<Vec<Ingredient>>())
+    }
+
+    async fn filter_by_main_ingredient(&self, ingredient: &str) -> Result<Option<Vec<String>>> {
+        let url = format!("{}/filter.php?i={}", self.base_uri, ingredient);
+        self._get_filtered_meals_response(url).await
+    }
+
+    async fn filter_by_category(&self, category: &str) -> Result<Option<Vec<String>>> {
+        let url = format!("{}/filter.php?c={}", self.base_uri, category);
+        self._get_filtered_meals_response(url).await
+    }
+
+    async fn filter_by_area(&self, area: &str) -> Result<Option<Vec<String>>> {
+        let url = format!("{}/filter.php?a={}", self.base_uri, area);
+        self._get_filtered_meals_response(url).await
+    }
+}
+
+impl V1 {
+    /// Gets a listof Meals from the API.
+    /// This has been extracted since its used in multiple functions.
+    async fn _get_meals_response(&self, url: String) -> Result<Option<Vec<Meal>>> {
+        let response = get(url).await?.text().await?;
+        let data: crate::api_datamodel::meal_list_response::_MealsResponse =
+            serde_json::from_str(&response)?;
+
+        if let Some(v) = data.meals {
+            Ok(Some(
+                v.into_iter()
+                    .map(|internal| internal.into())
+                    .collect::<Vec<Meal>>(),
+            ))
+        } else {
+            Ok(None)
+        }
+    }
+
+    /// Gets a listof Meals from the API.
+    /// This has been extracted since its used in multiple functions.
+    /// Returns up to `limit` results (ordered by whatever the API returns)
+    async fn _get_filtered_meals_response(&self, url: String) -> Result<Option<Vec<String>>> {
+        let response = get(url).await?.text().await?;
+
+        // println!("------------");
+        // println!("{}", response);
+        // println!("------------");
+        let data: crate::api_datamodel::filtered_meal_response::_FilteredMealResponse =
+            serde_json::from_str(&response)?;
+
+        // Async closures arn't stable yet (https://github.com/rust-lang/rust/issues/62290)
+        // therefore we have to do this the hard way.
+        if let Some(filtered_meals) = data.meals {
+            Ok(Some(
+                filtered_meals
+                    .into_iter()
+                    .map(|response| response.idMeal)
+                    .collect::<Vec<String>>(),
+            ))
+        } else {
+            Ok(None)
+        }
     }
 }

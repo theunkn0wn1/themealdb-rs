@@ -28,7 +28,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-use crate::datamodel::{Category, Meal, Ingredient};
+use crate::datamodel::{Category, Ingredient, Meal};
+use crate::Result;
 
 use async_trait::async_trait;
 
@@ -37,18 +38,32 @@ use async_trait::async_trait;
 pub trait MealDbBaseV1 {
     /// Searches for a meal by its specified name
     /// Returns a optional list of resulting meals
-    async fn search_meal_by_name(&self, name: &str) -> crate::Result<Option<Vec<Meal>>>;
+    async fn search_meal_by_name(&self, name: &str) -> Result<Option<Vec<Meal>>>;
     /// Finds all meals that start with the specified letter.
     /// Same as `search_meal_by_name` with a single-character string.
-    async fn search_meal_by_first_letter(&self, letter: &char) -> crate::Result<Option<Vec<Meal>>> {
+    async fn search_meal_by_first_letter(&self, letter: &char) -> Result<Option<Vec<Meal>>> {
         self.search_meal_by_name(&letter.to_string()).await
     }
-    async fn get_meal(&self, id: &str) -> crate::Result<Option<Meal>>;
-    async fn get_random_meal(&self) -> crate::Result<Meal>;
-    async fn list_categories(&self) -> crate::Result<Vec<String>>;
-    async fn get_categories(&self) -> crate::Result<Vec<Category>>;
-    async fn list_areas(&self) -> crate::Result<Vec<String>>;
-    async fn list_ingreedients(&self) -> crate::Result<Vec<Ingredient>>;
+    /// Returns the specified meal by its ID, provided it exists.
+    async fn get_meal(&self, id: &str) -> Result<Option<Meal>>;
+    /// Returns a random meal.
+    async fn get_random_meal(&self) -> Result<Meal>;
+    /// Returns the names of all categories.
+    async fn list_categories(&self) -> Result<Vec<String>>;
+    /// Returns the details of all categories.
+    async fn get_categories(&self) -> Result<Vec<Category>>;
+    /// Returns the names of all areas.
+    async fn list_areas(&self) -> Result<Vec<String>>;
+    /// returns the details of all ingredients
+    async fn list_ingredients(&self) -> Result<Vec<Ingredient>>;
+
+    /// Returns the IDs of all meals containing the specified main ingredient, if any exist.
+    async fn filter_by_main_ingredient(&self, ingredient: &str) -> Result<Option<Vec<String>>>;
+
+    /// Returns the IDs of all meals in the specified category, if any exist.
+    async fn filter_by_category(&self, category: &str) -> Result<Option<Vec<String>>>;
+    /// Returns the IDs of all meals in the specified area, if any exist.
+    async fn filter_by_area(&self, category: &str) -> Result<Option<Vec<String>>>;
 }
 
 #[async_trait]
