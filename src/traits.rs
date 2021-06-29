@@ -57,8 +57,13 @@ pub trait MealDbBaseV1 {
     /// returns the details of all ingredients
     async fn list_ingredients(&self) -> Result<Vec<Ingredient>>;
 
-    /// Returns the IDs of all meals containing the specified ingredient, if any.
+    /// Returns the IDs of all meals containing the specified main ingredient, if any exist.
     async fn filter_by_main_ingredient(&self, ingredient: &str) -> Result<Option<Vec<String>>>;
+
+    /// Returns the IDs of all meals in the specified category, if any exist.
+    async fn filter_by_category(&self, category: &str) -> Result<Option<Vec<String>>>;
+    /// Returns the IDs of all meals in the specified area, if any exist.
+    async fn filter_by_area(&self, category: &str) -> Result<Option<Vec<String>>>;
 }
 
 #[async_trait]

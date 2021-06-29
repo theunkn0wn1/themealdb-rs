@@ -135,6 +135,16 @@ impl MealDbBaseV1 for V1 {
         let url = format!("{}/filter.php?i={}", self.base_uri, ingredient);
         self._get_filtered_meals_response(url).await
     }
+
+    async fn filter_by_category(&self, category: &str) -> Result<Option<Vec<String>>> {
+        let url = format!("{}/filter.php?c={}", self.base_uri, category);
+        self._get_filtered_meals_response(url).await
+    }
+
+    async fn filter_by_area(&self, area: &str) -> Result<Option<Vec<String>>> {
+        let url = format!("{}/filter.php?a={}", self.base_uri, area);
+        self._get_filtered_meals_response(url).await
+    }
 }
 
 impl V1 {
