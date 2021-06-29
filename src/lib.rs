@@ -9,6 +9,7 @@ pub use crate::mealdb::V1;
 pub enum Error {
     DeserializationFailure(serde_json::Error),
     RequestFalure(reqwest::Error),
+    InvalidAPIResponse,
     Unknown(),
 }
 

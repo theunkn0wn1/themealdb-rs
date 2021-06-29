@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::datamodel::Meal;
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
@@ -56,4 +57,85 @@ pub(crate) struct _Meal {
     pub(crate) strCreativeCommonsConfirmed: Option<bool>,
     pub(crate) dateModified: Option<String>,
     pub(crate) strDrinkAlternate: Option<String>,
+}
+
+
+impl Into<Meal> for _Meal{
+    fn into(self) -> Meal {
+        Meal {
+            id: self.idMeal.parse().unwrap(),
+            name: self.strMeal,
+            drink_alternate: self.strDrinkAlternate,
+            category: self.strCategory,
+            instructions: self.strInstructions,
+            thumbnail: self.strMealThumb,
+            tags: self.strTags,
+            // This part is ugly but its what the API spits out...
+            ingreedients: [
+                self.strIngredient1,
+                self.strIngredient2,
+                self.strIngredient3,
+                self.strIngredient4,
+                self.strIngredient5,
+                self.strIngredient6,
+                self.strIngredient7,
+                self.strIngredient8,
+                self.strIngredient9,
+                self.strIngredient10,
+                self.strIngredient11,
+                self.strIngredient12,
+                self.strIngredient13,
+                self.strIngredient14,
+                self.strIngredient15,
+                self.strIngredient16,
+                self.strIngredient17,
+                self.strIngredient18,
+                self.strIngredient19,
+                self.strIngredient20,
+            ]
+                .iter()
+                // filter null out
+                .filter(|mabie_value| mabie_value.is_some())
+                // filter empties out
+                .filter(|value| value.as_ref().unwrap().ne("".into()))
+                .map(|value| value.as_ref().unwrap().to_owned())
+                .collect::<Vec<String>>(),
+
+            measures: [
+                self.strMeasure1,
+                self.strMeasure2,
+                self.strMeasure3,
+                self.strMeasure4,
+                self.strMeasure5,
+                self.strMeasure6,
+                self.strMeasure7,
+                self.strMeasure8,
+                self.strMeasure9,
+                self.strMeasure10,
+                self.strMeasure11,
+                self.strMeasure12,
+                self.strMeasure13,
+                self.strMeasure14,
+                self.strMeasure15,
+                self.strMeasure16,
+                self.strMeasure17,
+                self.strMeasure18,
+                self.strMeasure19,
+                self.strMeasure20,
+            ]
+                .iter()
+                // filter null out
+                .filter(|mabie_value| mabie_value.is_some())
+                // filter empties out
+                .filter(|value| value.as_ref().unwrap().ne("".into()))
+                .map(|value| value.as_ref().unwrap().to_owned())
+                .collect::<Vec<String>>(),
+
+            source: self.strSource,
+            image_source: self.strImageSource,
+            creative_commons_confirmed: self.strCreativeCommonsConfirmed,
+            date_modified: self.dateModified,
+        }
+
+    }
 }

@@ -6,3 +6,4 @@ pub(crate) mod ingredient_list_response;
 pub(crate) mod area;
 pub(crate) mod area_list_reponse;
 pub(crate) mod categories;
+pub(crate) mod categories_response;

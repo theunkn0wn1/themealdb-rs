@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::datamodel::Category;
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
@@ -8,13 +9,30 @@ pub(crate) struct _ListCategoriesVariant1 {
     pub(crate) strArea: String,
 }
 
+impl Into<String> for _ListCategoriesVariant1 {
+    fn into(self) -> String {
+        self.strArea
+    }
+}
+
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
 /// there are two variants to the categories depending on which endpoint is queried.
 /// this one relates to the response of /categories.php
 pub(crate) struct _ListCategoriesVariant2 {
-    idCategory: u32,
-    strCategory: String,
-    srCategoryThumb: String,
-    strCategoryDescription: String,
+    pub(crate) idCategory: u32,
+    pub(crate) strCategory: String,
+    pub(crate) srCategoryThumb: String,
+    pub(crate) strCategoryDescription: String,
+}
+
+impl Into<Category> for _ListCategoriesVariant2 {
+    fn into(self) -> Category {
+        Category {
+            id: self.idCategory,
+            name: self.strCategory,
+            thumbnail: self.srCategoryThumb,
+            description: self.strCategoryDescription,
+        }
+    }
 }

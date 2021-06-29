@@ -7,7 +7,7 @@ pub async fn main() {
 
     // Create handle to the API
     let api = V1::new("https://www.themealdb.com", "1");
-
+    println!("finding all meals with `chicken` in the name...");
     let findings = api
         .search_meal_by_name("chicken")
         .await
@@ -15,5 +15,12 @@ pub async fn main() {
         .expect("no results.");
     findings
         .iter()
-        .for_each(|meal| println!("meal name :: {} meal id :: {}", meal.name, meal.id))
+        .for_each(|meal| println!("meal name :: {} meal id :: {}", meal.name, meal.id));
+    println!("finding meal with specific id...");
+    let meal = api.get_meal("52875").await.expect("query failed.").expect("API returned null");
+    println!("meal name :: {:?}", meal.name);
+
+    println!("finding all categories (names)....");
+    let category_names = api.get_categories().await.expect("query failed.");
+    println!("{:?}", category_names)
 }
